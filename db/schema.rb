@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181215155326) do
+ActiveRecord::Schema.define(version: 20181222150723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,4 +26,27 @@ ActiveRecord::Schema.define(version: 20181215155326) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "creditos", force: :cascade do |t|
+    t.bigint "client_id"
+    t.bigint "producto_id"
+    t.integer "plazo", null: false
+    t.decimal "monto", null: false
+    t.integer "periodicidad", default: 3, null: false
+    t.text "destino"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_creditos_on_client_id"
+    t.index ["producto_id"], name: "index_creditos_on_producto_id"
+  end
+
+  create_table "productos", force: :cascade do |t|
+    t.string "nombre"
+    t.decimal "tasa"
+    t.integer "plazo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "creditos", "clients"
+  add_foreign_key "creditos", "productos"
 end
